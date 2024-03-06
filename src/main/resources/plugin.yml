@@ -1,0 +1,9 @@
+name: SignalStrengthProvider
+version: '1.0'
+main: net.fameless.signalstrengthprovider.SignalStrengthProvider
+api-version: '1.20'
+author: Fameless9
+
+commands:
+  signalstrength:
+    aliases: ["ss", "singalstärke"]
