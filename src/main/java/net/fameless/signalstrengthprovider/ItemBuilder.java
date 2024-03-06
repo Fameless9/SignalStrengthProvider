@@ -73,7 +73,7 @@ public class ItemBuilder {
         for (int i = 0; i < items; i++) {
             ItemStack stack = barrel.getInventory().getItem(1);
             if (stack == null) {
-                barrel.getInventory().setItem(1, new ItemStack(Material.WHITE_CONCRETE));
+                barrel.getInventory().setItem(slot, new ItemStack(Material.WHITE_CONCRETE));
             } else {
                 if (!stack.getType().equals(Material.WHITE_CONCRETE)) continue;
                 stack.setAmount(stack.getAmount() + 1);

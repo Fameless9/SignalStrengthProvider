@@ -2,7 +2,7 @@ message:
   received: "<gray>Received Signal Strength ${strength}!"
   no-permission: "<dark_red>Lacking permission: <gray>${permission}"
   not-a-player: "<dark_red>Only players may use this command!"
-  command_usage: "<gray>Usage: /signalstrength <amount>"
+  command-usage: "<gray>Usage: /signalstrength <amount>"
   not-a-number: "<dark_red>Argument must be a number!"
   not-in-range: "<dark_red>${strength} is not in range. 1 - 897"
 
