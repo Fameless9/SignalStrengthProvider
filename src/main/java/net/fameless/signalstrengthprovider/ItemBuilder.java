@@ -2,6 +2,7 @@ package net.fameless.signalstrengthprovider;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Barrel;
 import org.bukkit.inventory.ItemStack;
@@ -56,6 +57,9 @@ public class ItemBuilder {
             currentStrength = (int) (Math.floor(1 + ((double) (items / 64) / 27) * 14) + Math.floor(1 + ((double) minecarts / 27) * 14));
         }
 
+        Bukkit.getLogger().info("Minecarts: " + minecarts);
+        Bukkit.getLogger().info("Items: " + items);
+
         int slot = 0;
 
         for (int i = 0; i < minecarts; i++) {
@@ -63,6 +67,10 @@ public class ItemBuilder {
             if (stack == null) {
                 barrel.getInventory().setItem(slot, new ItemStack(Material.MINECART));
             } else {
+                if (!stack.getType().equals(Material.MINECART)) {
+                    slot++;
+                    continue;
+                }
                 stack.setAmount(stack.getAmount() + 1);
                 if (stack.getAmount() == 64) slot++;
             }
@@ -71,11 +79,14 @@ public class ItemBuilder {
         slot = 0;
 
         for (int i = 0; i < items; i++) {
-            ItemStack stack = barrel.getInventory().getItem(1);
+            ItemStack stack = barrel.getInventory().getItem(slot);
             if (stack == null) {
                 barrel.getInventory().setItem(slot, new ItemStack(Material.WHITE_CONCRETE));
             } else {
-                if (!stack.getType().equals(Material.WHITE_CONCRETE)) continue;
+                if (!stack.getType().equals(Material.WHITE_CONCRETE)) {
+                    slot++;
+                    continue;
+                }
                 stack.setAmount(stack.getAmount() + 1);
                 if (stack.getAmount() == 64) slot++;
             }
