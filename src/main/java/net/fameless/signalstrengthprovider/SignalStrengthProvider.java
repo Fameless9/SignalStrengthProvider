@@ -1,5 +1,7 @@
 package net.fameless.signalstrengthprovider;
 
+import de.themoep.minedown.adventure.MineDown;
+import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -8,14 +10,15 @@ import java.io.File;
 public final class SignalStrengthProvider extends JavaPlugin {
 
     private YamlConfiguration languageFile;
+    private Component prefix;
 
     @Override
     public void onLoad() {
-        saveDefaultConfig();
         saveResource("lang.yml", false);
 
         File langYML = new File(getDataFolder(), "lang.yml");
         languageFile = YamlConfiguration.loadConfiguration(langYML);
+        prefix = new MineDown(languageFile.getString("message.prefix")).toComponent();
     }
 
     @Override
@@ -26,7 +29,6 @@ public final class SignalStrengthProvider extends JavaPlugin {
         getCommand("signalstrength").setTabCompleter(new SignalStrengthCommandTabCompleter());
     }
 
-    public YamlConfiguration getLanguageFile() {
-        return languageFile;
-    }
+    public YamlConfiguration getLanguageFile() { return languageFile; }
+    public Component getPrefix() { return prefix; }
 }

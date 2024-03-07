@@ -20,18 +20,16 @@ public class SignalStrengthCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        String permission = signalStrengthProvider.getConfig().contains("permission") ?
-                signalStrengthProvider.getConfig().getString("permission") : null;
-        if (permission != null && !permission.isEmpty() && !sender.hasPermission(permission)) {
-            sender.sendMessage(message.getMessage(MessageType.NO_PERMISSION, permission));
+        if (!sender.hasPermission("signalstrength.command.give")) {
+            sender.sendMessage(signalStrengthProvider.getPrefix().append(message.getMessage(MessageType.NO_PERMISSION, "signalstrength.command.give")));
             return false;
         }
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(message.getMessage(MessageType.NOT_A_PLAYER));
+            sender.sendMessage(signalStrengthProvider.getPrefix().append(message.getMessage(MessageType.NOT_A_PLAYER)));
             return false;
         }
         if (args.length == 0) {
-            player.sendMessage(message.getMessage(MessageType.COMMAND_USAGE));
+            player.sendMessage(signalStrengthProvider.getPrefix().append(message.getMessage(MessageType.COMMAND_USAGE)));
             return false;
         }
 
@@ -42,23 +40,23 @@ public class SignalStrengthCommand implements CommandExecutor {
             try {
                 signalStrength = Integer.parseInt(args[0]);
             } catch (NumberFormatException e) {
-                player.sendMessage(message.getMessage(MessageType.COMMAND_USAGE));
+                player.sendMessage(signalStrengthProvider.getPrefix().append(message.getMessage(MessageType.COMMAND_USAGE)));
                 return false;
             }
         }
 
         if (signalStrength > 1776) {
-            player.sendMessage(message.getMessage(MessageType.NUMBER_TOO_HIGH, signalStrength));
+            player.sendMessage(signalStrengthProvider.getPrefix().append(message.getMessage(MessageType.NUMBER_TOO_HIGH, signalStrength)));
             return false;
         }
 
         if (signalStrength < 1) {
-            player.sendMessage(message.getMessage(MessageType.NUMBER_TOO_LOW, signalStrength));
+            player.sendMessage(signalStrengthProvider.getPrefix().append(message.getMessage(MessageType.NUMBER_TOO_LOW, signalStrength)));
             return false;
         }
 
         player.getInventory().addItem(itemBuilder.buildSignalStrength(signalStrength));
-        player.sendMessage(message.getMessage(MessageType.RECEIVED, signalStrength));
+        player.sendMessage(signalStrengthProvider.getPrefix().append(message.getMessage(MessageType.RECEIVED, signalStrength)));
 
         return false;
     }
