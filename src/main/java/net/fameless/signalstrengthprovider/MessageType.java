@@ -7,8 +7,7 @@ public enum MessageType {
     NOT_A_PLAYER("message.not-a-player"),
     COMMAND_USAGE("message.command-usage"),
     NOT_A_NUMBER("message.not-a-number"),
-    NUMBER_TOO_HIGH("message.number-too-high"),
-    NUMBER_TOO_LOW("message.number-too-low");
+    NUMBER_TOO_HIGH("message.number-too-high");
 
     private final String location;
 

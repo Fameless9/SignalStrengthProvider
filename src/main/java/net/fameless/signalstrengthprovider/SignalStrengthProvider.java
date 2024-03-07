@@ -14,7 +14,6 @@ public final class SignalStrengthProvider extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        saveDefaultConfig();
         saveResource("lang.yml", false);
 
         File langYML = new File(getDataFolder(), "lang.yml");

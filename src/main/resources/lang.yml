@@ -6,7 +6,6 @@ message:
   command-usage: "&gray&Usage: /signalstrength <max | amount>"
   not-a-number: "&dark_red&Argument must be a number!"
   number-too-high: "&red&Requested strength ${strength} exceeds limit of 1776!"
-  number-too-low: "&red&Requested strength ${strength} can't be less than than 1!"
 
 item:
   name: "&light_purple&${strength}"

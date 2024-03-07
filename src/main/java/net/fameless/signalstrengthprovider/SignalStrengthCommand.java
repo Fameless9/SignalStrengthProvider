@@ -45,13 +45,12 @@ public class SignalStrengthCommand implements CommandExecutor {
             }
         }
 
-        if (signalStrength > 1776) {
-            player.sendMessage(signalStrengthProvider.getPrefix().append(message.getMessage(MessageType.NUMBER_TOO_HIGH, signalStrength)));
-            return false;
+        if (signalStrength < 0) {
+            signalStrength = signalStrength * (-1);
         }
 
-        if (signalStrength < 1) {
-            player.sendMessage(signalStrengthProvider.getPrefix().append(message.getMessage(MessageType.NUMBER_TOO_LOW, signalStrength)));
+        if (signalStrength > 1776) {
+            player.sendMessage(signalStrengthProvider.getPrefix().append(message.getMessage(MessageType.NUMBER_TOO_HIGH, signalStrength)));
             return false;
         }
 
