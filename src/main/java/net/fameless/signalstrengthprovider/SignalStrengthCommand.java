@@ -20,9 +20,9 @@ public class SignalStrengthCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        String permission = signalStrengthProvider.getConfig().contains("permission") ? signalStrengthProvider.getConfig().getString("permission") :
-                null;
-        if (permission != null && !sender.hasPermission(permission)) {
+        String permission = signalStrengthProvider.getConfig().contains("permission") ?
+                signalStrengthProvider.getConfig().getString("permission") : null;
+        if (permission != null && !permission.isEmpty() && !sender.hasPermission(permission)) {
             sender.sendMessage(message.getMessage(MessageType.NO_PERMISSION, permission));
             return false;
         }
@@ -34,16 +34,26 @@ public class SignalStrengthCommand implements CommandExecutor {
             player.sendMessage(message.getMessage(MessageType.COMMAND_USAGE));
             return false;
         }
+
         int signalStrength;
-        try {
-            signalStrength = Integer.parseInt(args[0]);
-        } catch (NumberFormatException e) {
-            player.sendMessage(message.getMessage(MessageType.COMMAND_USAGE));
+        if (args[0].equals("max") || args[0].equals("min")) {
+            signalStrength = args[0].equals("max") ? 1776 : 1;
+        } else {
+            try {
+                signalStrength = Integer.parseInt(args[0]);
+            } catch (NumberFormatException e) {
+                player.sendMessage(message.getMessage(MessageType.COMMAND_USAGE));
+                return false;
+            }
+        }
+
+        if (signalStrength > 1776) {
+            player.sendMessage(message.getMessage(MessageType.NUMBER_TOO_HIGH, signalStrength));
             return false;
         }
 
-        if (signalStrength > 897 || signalStrength < 1) {
-            player.sendMessage(message.getMessage(MessageType.NOT_IN_RANGE, signalStrength));
+        if (signalStrength < 1) {
+            player.sendMessage(message.getMessage(MessageType.NUMBER_TOO_LOW, signalStrength));
             return false;
         }
 

@@ -1,7 +1,7 @@
 package net.fameless.signalstrengthprovider;
 
+import de.themoep.minedown.adventure.MineDown;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 
 public class Message {
 
@@ -12,26 +12,28 @@ public class Message {
     }
 
     public Component getMessage(MessageType messageType) {
-        if (!signalStrengthProvider.getLanguageFile().contains(messageType.getLocation())) return Component.text(messageType.getLocation());
-        String toMiniMessage = signalStrengthProvider.getLanguageFile().getString(messageType.getLocation());
-        if (toMiniMessage == null) return Component.text(messageType.getLocation());
-        return MiniMessage.miniMessage().deserialize(toMiniMessage);
+        if (!signalStrengthProvider.getLanguageFile().contains(messageType.getLocation()))
+            return Component.text(messageType.getLocation());
+        String toMineDown = signalStrengthProvider.getLanguageFile().getString(messageType.getLocation());
+        if (toMineDown == null) return Component.text(messageType.getLocation());
+        return new MineDown(toMineDown).toComponent();
     }
 
     public Component getMessage(MessageType messageType, int signalStrength) {
-        if (!signalStrengthProvider.getLanguageFile().contains(messageType.getLocation())) return Component.text(messageType.getLocation());
-        String toMiniMessage = signalStrengthProvider.getLanguageFile().getString(messageType.getLocation());
-        if (toMiniMessage == null) return Component.text(messageType.getLocation());
-        String updated = toMiniMessage.replace("${strength}", String.valueOf(signalStrength));
-        return MiniMessage.miniMessage().deserialize(updated);
+        if (!signalStrengthProvider.getLanguageFile().contains(messageType.getLocation()))
+            return Component.text(messageType.getLocation());
+        String toMineDown = signalStrengthProvider.getLanguageFile().getString(messageType.getLocation());
+        if (toMineDown == null) return Component.text(messageType.getLocation());
+        String updated = toMineDown.replace("${strength}", String.valueOf(signalStrength));
+        return new MineDown(updated).toComponent();
     }
 
     public Component getMessage(MessageType messageType, String permission) {
-        if (!signalStrengthProvider.getLanguageFile().contains(messageType.getLocation())) return Component.text(messageType.getLocation());
-        String toMiniMessage = signalStrengthProvider.getLanguageFile().getString(messageType.getLocation());
-        if (toMiniMessage == null) return Component.text(messageType.getLocation());
-        String updated = toMiniMessage.replace("${permission}", permission);
-        return MiniMessage.miniMessage().deserialize(updated);
+        if (!signalStrengthProvider.getLanguageFile().contains(messageType.getLocation()))
+            return Component.text(messageType.getLocation());
+        String toMineDown = signalStrengthProvider.getLanguageFile().getString(messageType.getLocation());
+        if (toMineDown == null) return Component.text(messageType.getLocation());
+        String updated = toMineDown.replace("${permission}", permission);
+        return new MineDown(updated).toComponent();
     }
-
 }

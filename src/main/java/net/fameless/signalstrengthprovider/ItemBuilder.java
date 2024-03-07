@@ -1,8 +1,7 @@
 package net.fameless.signalstrengthprovider;
 
+import de.themoep.minedown.adventure.MineDown;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Barrel;
 import org.bukkit.inventory.ItemStack;
@@ -25,25 +24,6 @@ public class ItemBuilder {
         Barrel barrel = (Barrel) barrelMeta.getBlockState();
         barrel.update();
 
-        List<String> lores = signalStrengthProvider.getLanguageFile().getStringList("item.lore");
-        List<Component> loreComponents = new ArrayList<>();
-
-        for (String s : lores) {
-            String toMiniMessage = s.replace("${strength}", String.valueOf(signalStrength));
-            loreComponents.add(MiniMessage.miniMessage().deserialize(toMiniMessage));
-        }
-
-        barrelMeta.lore(loreComponents);
-
-        String name = signalStrengthProvider.getLanguageFile().contains("item.name") ?
-                signalStrengthProvider.getLanguageFile().getString("item.name") :
-                "<purple>" + signalStrength;
-
-        assert name != null;
-        String nameToMiniMessage = name.replace("${strength}", String.valueOf(signalStrength));
-        Component displayNameComponent = MiniMessage.miniMessage().deserialize(nameToMiniMessage);
-        barrelMeta.displayName(displayNameComponent);
-
         int currentStrength = 0;
         int minecarts = 0;
         int items = 1;
@@ -57,12 +37,28 @@ public class ItemBuilder {
             currentStrength = (int) (Math.floor(1 + ((double) (items / 64) / 27) * 14) + Math.floor(1 + ((double) minecarts / 27) * 14));
         }
 
-        Bukkit.getLogger().info("Minecarts: " + minecarts);
-        Bukkit.getLogger().info("Items: " + items);
+        List<String> lores = signalStrengthProvider.getLanguageFile().getStringList("item.lore");
+        List<Component> loreComponents = new ArrayList<>();
 
-        int slot = 0;
+        for (String s : lores) {
+            String toMineDown = s.replace("${strength}", String.valueOf(currentStrength - 1));
+            loreComponents.add(new MineDown(toMineDown).toComponent());
+        }
 
-        for (int i = 0; i < minecarts; i++) {
+        barrelMeta.lore(loreComponents);
+
+        String name = signalStrengthProvider.getLanguageFile().contains("item.name") ?
+                signalStrengthProvider.getLanguageFile().getString("item.name") :
+                "&light_purple&" + (currentStrength - 1);
+
+        assert name != null;
+        String nameToMineDown = name.replace("${strength}", String.valueOf(currentStrength - 1));
+        barrelMeta.displayName(new MineDown(nameToMineDown).toComponent());
+
+        int slot = 0, i = 0;
+
+        while (i < minecarts) {
+            if (slot > 26) break;
             ItemStack stack = barrel.getInventory().getItem(slot);
             if (stack == null) {
                 barrel.getInventory().setItem(slot, new ItemStack(Material.MINECART));
@@ -72,14 +68,17 @@ public class ItemBuilder {
                     continue;
                 }
                 stack.setAmount(stack.getAmount() + 1);
-                if (stack.getAmount() == 64) slot++;
+                if (stack.getAmount() == 127) slot++;
             }
+            i++;
         }
 
         slot = 0;
+        i = 0;
 
-        for (int i = 0; i < items; i++) {
-            ItemStack stack = barrel.getInventory().getItem(slot);
+        while (i < items) {
+            if (slot > 26) break;
+            ItemStack stack= barrel.getInventory().getItem(slot);
             if (stack == null) {
                 barrel.getInventory().setItem(slot, new ItemStack(Material.WHITE_CONCRETE));
             } else {
@@ -88,8 +87,9 @@ public class ItemBuilder {
                     continue;
                 }
                 stack.setAmount(stack.getAmount() + 1);
-                if (stack.getAmount() == 64) slot++;
+                if (stack.getAmount() == 127) slot++;
             }
+            i++;
         }
 
         barrelMeta.setBlockState(barrel);

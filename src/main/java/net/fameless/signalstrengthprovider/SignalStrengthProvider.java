@@ -23,6 +23,7 @@ public final class SignalStrengthProvider extends JavaPlugin {
         Message message = new Message(this);
         ItemBuilder itemBuilder = new ItemBuilder(this);
         getCommand("signalstrength").setExecutor(new SignalStrengthCommand(this, message, itemBuilder));
+        getCommand("signalstrength").setTabCompleter(new SignalStrengthCommandTabCompleter());
     }
 
     public YamlConfiguration getLanguageFile() {
