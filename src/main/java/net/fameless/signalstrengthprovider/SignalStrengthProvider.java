@@ -10,15 +10,23 @@ import java.io.File;
 public final class SignalStrengthProvider extends JavaPlugin {
 
     private YamlConfiguration languageFile;
-    private Component prefix;
+    private Component prefix = null;
 
     @Override
     public void onLoad() {
+        saveDefaultConfig();
         saveResource("lang.yml", false);
 
         File langYML = new File(getDataFolder(), "lang.yml");
         languageFile = YamlConfiguration.loadConfiguration(langYML);
-        prefix = new MineDown(languageFile.getString("message.prefix")).toComponent();
+        String prefixString = languageFile.getString("message.prefix") != null ? languageFile.getString("message.prefix") :
+                "";
+
+        if (prefixString.isEmpty()) {
+            prefix = Component.text("");
+        } else {
+            prefix = new MineDown(prefixString).toComponent();
+        }
     }
 
     @Override

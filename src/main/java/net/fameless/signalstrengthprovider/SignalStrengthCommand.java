@@ -34,13 +34,13 @@ public class SignalStrengthCommand implements CommandExecutor {
         }
 
         int signalStrength;
-        if (args[0].equals("max") || args[0].equals("min")) {
-            signalStrength = args[0].equals("max") ? 1776 : 1;
+        if (args[0].equals("max")) {
+            signalStrength = 1776;
         } else {
             try {
                 signalStrength = Integer.parseInt(args[0]);
             } catch (NumberFormatException e) {
-                player.sendMessage(signalStrengthProvider.getPrefix().append(message.getMessage(MessageType.COMMAND_USAGE)));
+                player.sendMessage(signalStrengthProvider.getPrefix().append(message.getMessage(MessageType.NOT_A_NUMBER)));
                 return false;
             }
         }

@@ -6,4 +6,4 @@ author: Fameless9
 
 commands:
   signalstrength:
-    aliases: ["ss", "singalstärke"]
+    aliases: ["ss", "signalstärke"]

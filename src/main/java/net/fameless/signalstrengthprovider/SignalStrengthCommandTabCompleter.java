@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SignalStrengthCommandTabCompleter implements TabCompleter {
@@ -15,10 +16,7 @@ public class SignalStrengthCommandTabCompleter implements TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if (args.length == 1) {
-            List<String> matches = new ArrayList<>();
-            matches.add("max");
-            matches.add("min");
-            return StringUtil.copyPartialMatches(args[0], matches, new ArrayList<>());
+            return StringUtil.copyPartialMatches(args[0], Collections.singleton("max"), new ArrayList<>());
         }
         return null;
     }
