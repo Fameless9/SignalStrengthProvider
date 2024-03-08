@@ -46,7 +46,7 @@ public class ItemBuilder {
 
         int requiredMinecarts = (int) Math.ceil(Math.max(signalStrength, Math.ceil(((double) (container.getInventory().getSize() * 64) / 14) * (signalStrength - 1))) / 64);
 
-        for (int i = 0; i < container.getInventory().getSize(); i++) {
+        for (int i = 0; i < container.getInventory().getSize() && requiredMinecarts > 0; i++) {
             int amount = Math.min(127, requiredMinecarts);
             container.getInventory().setItem(i, new ItemStack(Material.MINECART));
             container.getInventory().getItem(i).setAmount(amount);
