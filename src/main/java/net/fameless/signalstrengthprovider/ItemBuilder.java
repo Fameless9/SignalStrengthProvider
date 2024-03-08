@@ -25,15 +25,14 @@ public class ItemBuilder {
         BlockState containerState = containerMeta.getBlockState();
         Container container = (Container) containerState;
 
-        double requiredItems = Math.max(signalStrength, Math.ceil(((double) (container.getInventory().getSize() * 64) / 14) * (signalStrength - 1)));
-        int minecarts = (int) Math.ceil(requiredItems / 64);
-
         List<String> lores = signalStrengthProvider.getLanguageFile().getStringList("item.lore");
         List<Component> loreComponents = new ArrayList<>();
 
-        for (String s : lores) {
-            String toMineDown = s.replace("${strength}", String.valueOf(signalStrength));
-            loreComponents.add(new MineDown(toMineDown).toComponent());
+        if (!lores.isEmpty()) {
+            for (String s : lores) {
+                String toMineDown = s.replace("${strength}", String.valueOf(signalStrength));
+                loreComponents.add(new MineDown(toMineDown).toComponent());
+            }
         }
 
         containerMeta.lore(loreComponents);
@@ -45,22 +44,13 @@ public class ItemBuilder {
         String nameToMineDown = name.replace("${strength}", String.valueOf(signalStrength));
         containerMeta.displayName(new MineDown(nameToMineDown).toComponent());
 
-        int slot = 0, i = 0;
+        int requiredMinecarts = (int) Math.ceil(Math.max(signalStrength, Math.ceil(((double) (container.getInventory().getSize() * 64) / 14) * (signalStrength - 1))) / 64);
 
-        while (i < minecarts) {
-            if (slot > container.getInventory().getSize() - 1) break;
-            ItemStack stack = container.getInventory().getItem(slot);
-            if (stack == null) {
-                container.getInventory().setItem(slot, new ItemStack(Material.MINECART));
-            } else {
-                if (!stack.getType().equals(Material.MINECART)) {
-                    slot++;
-                    continue;
-                }
-                stack.setAmount(stack.getAmount() + 1);
-                if (stack.getAmount() == 127) slot++;
-            }
-            i++;
+        for (int i = 0; i < container.getInventory().getSize(); i++) {
+            int amount = Math.min(127, requiredMinecarts);
+            container.getInventory().setItem(i, new ItemStack(Material.MINECART));
+            container.getInventory().getItem(i).setAmount(amount);
+            requiredMinecarts -= amount;
         }
 
         containerMeta.setBlockState(container);
