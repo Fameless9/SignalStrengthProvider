@@ -49,7 +49,7 @@ public class ItemBuilder {
         for (int i = 0; i < container.getInventory().getSize(); i++) {
             int amount = Math.min(127, requiredMinecarts);
 
-if (amount < 1) break;
+             if (amount < 1) break;
             container.getInventory().setItem(i, new ItemStack(Material.MINECART));
             container.getInventory().getItem(i).setAmount(amount);
             requiredMinecarts -= amount;
