@@ -1,0 +1,42 @@
+message:
+  prefix: "&gray&[SignalStrength] "
+  received: "&gray&Received signal strength ${strength}!"
+  no-permission: "&red&Lacking permission: <gray>${permission}"
+  not-a-player: "&red&Only players may use this command!"
+  command-usage: "&gray&Usage: /signalstrength <max | amount> <container>"
+  not-a-number: "&red&Argument must be a number!"
+  number-too-high: "&red&Requested strength ${strength} exceeds limit of 1779!"
+  signal-strength-not-available: "&red&Signal strength ${strength} is not available for desired container."
+  invalid-container: "&gray&Argument 2 is not a valid container. Using barrel instead."
+
+inventory:
+  title: "&red&Select a different signal strength."
+  items:
+    not-available:
+      right:
+        type: "RED_STAINED_GLASS_PANE"
+        name: "&red&Signal strength greater than ${origin} is not available."
+        lore:
+          -
+      left:
+        type: "RED_STAINED_GLASS_PANE"
+        name: "&red&Signal strength less than ${origin} is not available."
+        lore:
+          -
+
+item:
+  non-stackable:
+    # Item with a stack size = 1
+    type: "MINECART" # Default: MINECART
+    name:
+    lore:
+  stackable-sixteen:
+    # Item with a stack size = 16
+    type: "ENDER_PEARL" # Default: ENDER_PEARL
+    name:
+    lore:
+  stackable:
+    # Item with a stack size = 64
+    type: "WHITE_CONCRETE" # Default: WHITE_CONCRETE
+    name:
+    lore:
